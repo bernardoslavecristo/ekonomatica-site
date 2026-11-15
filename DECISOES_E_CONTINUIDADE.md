@@ -38,7 +38,8 @@ Hospedagem no GitHub Pages **não atende sozinha** ao produto desejado; GitHub p
 - Impact Hub — desafio/protótipo de automação de notas fiscais; não apresentar como implantação comercial.
 - Nilo — agente de IA/Python com testes, incluir explicitamente nas demos.
 - Simulador de Aluguéis — simulador de cenários para decisões imobiliárias.
-- Estudos econômicos e viabilidade econômica, inclusive projeto de exploração de cobre da **Serra do Sossego**.
+- **Mineração Serra do Sossego S/A (Carajás/PA, 2000)**: projeto de lavra e beneficiamento de cobre com objetivo principal de **pleitear incentivo fiscal junto à SUDAM**. Bernardo integrou a equipe técnica de elaboração, como economista (CORECON/PA nº 3719), atuando na avaliação econômico-financeira/viabilidade. Acompanhamento formal do pleito foi designado a outro consultor; não apresentar como incentivo aprovado ou captado. Documento-fonte na biblioteca: `RESPONSABILIDADE TECNICA PERANTE A SUDAM.docx`.
+- **Atuação econômica além da viabilidade**: incentivos fiscais ao investimento, engenharia econômica, modelagem financeira, análise de investimentos e de impactos do empreendimento; destacar isso como serviço/experiência, não reduzir o portfólio a uma categoria genérica de estudo de viabilidade.
 - Projeto de inteligência de dados **Global Citizen** (grafia corrigida pelo usuário; não confundir com Global Cities), com aplicações na construção civil e outras áreas a confirmar.
 - Projetos adicionais somente se houver evidência ou descrição confirmada.
 - Posicionamento: automação com IA, agentes autônomos, integração n8n/Python/APIs/webhooks e consultoria econômica/viabilidade.
