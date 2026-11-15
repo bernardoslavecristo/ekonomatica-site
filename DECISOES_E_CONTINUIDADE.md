@@ -28,7 +28,7 @@ Na ordem visual e comercial, mostrar primeiro soluções TECH e demonstrações 
 - Domínio principal: **ekonomatica.com.br**, compra já confirmada pelo usuário em 14/11/2026.
 - Hostinger gerencia atualmente nameservers e registros DNS.
 - GitHub: repositório principal **bernardoslavecristo/ekonomatica-site** (branch main).
-- **Hospedagem de execução**: VPS Hostinger (plano KVM 2 em consideração) ou infraestrutura equivalente capaz de rodar aplicações; decisão de avaliar custo/condições antes de contratar. Não tratar VPS como já comprada.
+- **Hospedagem de execução**: VPS Hostinger (plano KVM 2 em consideração) ou infraestrutura equivalente capaz de rodar aplicações. **Há histórico de VPS Hostinger anterior, relatada como suspensa; conferir no hPanel se pode ser reativada antes de comprar uma nova.** Comparar custo/condições antes de contratar. Não tratar VPS como já comprada ou reativada.
 - Frontend e backend podem ser separados; backend poderá usar Python/FastAPI, PostgreSQL e n8n quando implementados e adequados. Consumo de APIs de IA e manutenção têm custos adicionais.
 - Não prometer hospedagem de modelos pesados localmente ou alto volume sem dimensionamento.
 - Não mudar DNS para GitHub Pages: o plano de hospedagem de produção foi reconsiderado e o endereço deve apontar para a infraestrutura escolhida **quando ela estiver pronta**.
@@ -61,6 +61,6 @@ Na ordem visual e comercial, mostrar primeiro soluções TECH e demonstrações 
 ## 7. Situação e próximo passo
 Confirmados: domínio comprado; repositório existe; conceito de plataforma dinâmica, interativa e comercial definido; DNS atual visto nos prints.
 Pendentes: contratar/configurar serviço de execução, determinar arquitetura operacional, implantar backend e demos, configurar domínio/HTTPS após infraestrutura pronta, testar experiência Android e fluxos de conversão.
-**Próxima ação:** revisar a oferta vigente de VPS da Hostinger, custos reais de contratação e renovação, e preparar um plano técnico de implantação sem mexer no DNS prematuramente.
+**Próxima ação:** conferir se a VPS Hostinger anteriormente suspensa ainda pode ser reativada; se não, comparar mensalidade e contrato de 24 meses para KVM 2 antes de pagamento. Backend FastAPI e arquivos Docker/Caddy foram iniciados em 14/11, mas ainda não implantados na VPS. Não mexer no DNS prematuramente.
 
 Este documento é uma referência de projeto no GitHub, e não substitui a memória pessoal do ChatGPT.
