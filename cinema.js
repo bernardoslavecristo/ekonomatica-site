@@ -12,6 +12,7 @@ if('IntersectionObserver'in window&&!reduced){
  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('eko-visible');obs.unobserve(e.target)}})},{rootMargin:'0px 0px -35px 0px',threshold:.02});
  document.querySelectorAll('.sectionhead,.work,.section .card,.section .tile,.panel').forEach(e=>{e.classList.add('eko-reveal');obs.observe(e)});
 }
+const surface=hero.querySelector('.visual');if(surface){const orb=document.createElement('div');orb.className='eko-holo';orb.setAttribute('aria-hidden','true');orb.innerHTML='<div class="eko-holo-core"></div><div class="eko-holo-ring"></div><div class="eko-holo-ring"></div>';surface.prepend(orb)}
 if(reduced)return;
 const canvas=document.createElement('canvas');canvas.id='eko-cinema-canvas';canvas.setAttribute('aria-hidden','true');document.body.prepend(canvas);
 const ctx=canvas.getContext('2d',{alpha:true});if(!ctx)return;
