@@ -5,6 +5,13 @@ services:
     expose:
       - "8000"
     read_only: true
+    volumes:
+      - contact_data:/app/data
+    environment:
+      EKONOMATICA_CONTACT_DB: /app/data/contatos.sqlite3
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:-}
+      EKONOMATICA_ADMIN_TOKEN: ${EKONOMATICA_ADMIN_TOKEN:-}
     tmpfs:
       - /tmp
     security_opt:
@@ -35,5 +42,6 @@ services:
       - caddy_config:/config
 
 volumes:
+  contact_data:
   caddy_data:
   caddy_config:
