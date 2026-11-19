@@ -30,6 +30,25 @@ const toggle=el('button',{type:'button',id:'eko-chat-toggle','aria-expanded':'fa
 const box=el('section',{id:'eko-chat-box',hidden:'','aria-label':t.title});
 const head=el('div',{className:'eko-top'}),title=el('h2',{},t.title),close=el('button',{type:'button',className:'eko-close','aria-label':t.close},'×');head.append(title,close);
 box.append(head,el('p',{},t.intro));
+const bubble=el('div',{className:'eko-bubble'},lang==='es'?'Soy el asistente guiado de Ekonomática. ¿Cuál es su necesidad principal?':'Sou o assistente guiado da Ekonomática. Qual é sua principal necessidade?');
+const guide=el('div',{className:'eko-choices'});
+box.append(bubble,guide);
+const recommendations=lang==='es'?[
+ 'Podemos mapear tareas repetitivas, conexiones entre sistemas y etapas de aprobación.',
+ 'Un agente necesita objetivos, herramientas permitidas y controles humanos.',
+ 'Podemos modelar indicadores, escenarios y decisiones económicas.',
+ 'Describa su desafío. El equipo podrá evaluar una propuesta.'
+]:[
+ 'Podemos mapear tarefas repetitivas, integrações e etapas de aprovação.',
+ 'Um agente precisa de objetivos, ferramentas permitidas e supervisão humana.',
+ 'Podemos estruturar indicadores, cenários e decisões econômicas.',
+ 'Descreva seu desafio. A equipe poderá avaliar uma proposta.'
+];
+t.options.forEach((item,i)=>{
+ const btn=el('button',{type:'button',className:'eko-choice','aria-pressed':'false'},item);
+ btn.addEventListener('click',()=>{guide.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));select.value=item;bubble.textContent=recommendations[i];});
+ guide.append(btn);
+});
 const form=el('form',{id:'eko-contact-form'});
 const field=(label,node)=>{form.append(el('label',{for:node.id},label),node);return node};
 const name=field(t.name,el('input',{id:'eko-contact-name',name:'nome',maxlength:'100',required:'',autocomplete:'name'}));
