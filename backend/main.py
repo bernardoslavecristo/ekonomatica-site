@@ -178,3 +178,116 @@ def estimativa(dados: EstimativaEntrada) -> dict:
 STATIC_DIR = Path(__file__).resolve().parent.parent / "public"
 if STATIC_DIR.is_dir():
     app.mount("/", StaticFiles(directory=str(STATIC_DIR), html=True), name="public")
+
+# Caixa de mensagens comerciais com retenção limitada e notificação Telegram opcional.
+# Não é chat ao vivo; credenciais e dados ficam fora do repositório Git.
+import os
+import re
+import sqlite3
+import time
+from datetime import datetime, timedelta, timezone
+from threading import Lock
+from urllib.parse import urlencode
+from urllib.request import Request as URLRequest, urlopen
+from fastapi import Header, HTTPException, Request
+from pydantic import field_validator
+
+DB_PATH = os.environ.get("EKONOMATICA_CONTACT_DB", "/app/data/contatos.sqlite3")
+_contact_lock = Lock()
+_recent_requests: list[float] = []
+
+
+class ContatoEntrada(BaseModel):
+    nome: str = Field(min_length=2, max_length=100)
+    contato: str = Field(min_length=6, max_length=160)
+    assunto: str = Field(min_length=2, max_length=120)
+    mensagem: str = Field(min_length=10, max_length=2000)
+    consentimento: bool
+    idioma: Literal["pt", "es"] = "pt"
+    website: str = Field(default="", max_length=250)
+
+    @field_validator("contato")
+    @classmethod
+    def validar_contato(cls, value: str) -> str:
+        value = value.strip()
+        email = re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", value)
+        telegram = re.fullmatch(r"@[a-zA-Z0-9_]{5,32}", value)
+        if not (email or telegram):
+            raise ValueError("Informe um e-mail ou identificador do Telegram válido")
+        return value
+
+
+def _db() -> sqlite3.Connection:
+    from pathlib import Path
+    Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
+    con = sqlite3.connect(DB_PATH, timeout=5)
+    con.execute("CREATE TABLE IF NOT EXISTS contatos (id INTEGER PRIMARY KEY AUTOINCREMENT, criado_utc TEXT NOT NULL, nome TEXT NOT NULL, contato TEXT NOT NULL, assunto TEXT NOT NULL, mensagem TEXT NOT NULL, idioma TEXT NOT NULL)")
+    return con
+
+
+@app.post("/api/contato", status_code=201)
+def receber_contato(dados: ContatoEntrada, request: Request) -> dict:
+    if not dados.consentimento:
+        raise HTTPException(status_code=422, detail="Consentimento necessário")
+    # Honeypot antispam: nenhum registro, resposta não reveladora.
+    if dados.website:
+        return {"recebido": True}
+    # Limite global de carga para proteger uma VPS pequena (sem armazenar IP).
+    now = time.monotonic()
+    with _contact_lock:
+        _recent_requests[:] = [x for x in _recent_requests if now - x < 60]
+        if len(_recent_requests) >= 40:
+            raise HTTPException(status_code=429, detail="Muitas solicitações. Tente novamente.")
+        _recent_requests.append(now)
+    try:
+        with _contact_lock:
+            with _db() as con:
+                # Retenção automática de 90 dias no envio de novas solicitações.
+                cutoff = (datetime.now(timezone.utc) - timedelta(days=90)).isoformat()
+                con.execute("DELETE FROM contatos WHERE criado_utc < ?", (cutoff,))
+                cursor = con.execute(
+                    "INSERT INTO contatos(criado_utc,nome,contato,assunto,mensagem,idioma) VALUES (?,?,?,?,?,?)",
+                    (datetime.now(timezone.utc).isoformat(), dados.nome.strip(), dados.contato,
+                     dados.assunto.strip(), dados.mensagem.strip(), dados.idioma),
+                )
+                contact_id = cursor.lastrowid
+    except sqlite3.Error:
+        raise HTTPException(status_code=503, detail="Serviço temporariamente indisponível")
+
+    # Opcional: informe token e chat_id SOMENTE no .env da VPS; nenhuma credencial no Git.
+    token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
+    if token and chat_id:
+        try:
+            notify = (
+                f"Ekonomática: novo contato #{contact_id}\n"
+                f"Nome: {dados.nome[:100]}\nCanal: {dados.contato[:160]}\n"
+                f"Assunto: {dados.assunto[:120]}\n"
+                f"Mensagem: {dados.mensagem[:1200]}"
+            )
+            body = urlencode({"chat_id": chat_id, "text": notify}).encode("utf-8")
+            req = URLRequest(
+                f"https://api.telegram.org/bot{token}/sendMessage",
+                data=body, method="POST",
+            )
+            with urlopen(req, timeout=4):
+                pass
+        except Exception:
+            # A entrega da mensagem no DB independe de alerta externo.
+            pass
+    return {"recebido": True, "referencia": contact_id}
+
+
+@app.get("/api/admin/contatos")
+def listar_contatos(x_admin_token: str | None = Header(default=None)) -> dict:
+    import secrets
+    expected = os.environ.get("EKONOMATICA_ADMIN_TOKEN", "")
+    if not expected or not x_admin_token or not secrets.compare_digest(expected, x_admin_token):
+        raise HTTPException(status_code=404, detail="Não encontrado")
+    with _contact_lock:
+        with _db() as con:
+            con.row_factory = sqlite3.Row
+            rows = con.execute(
+                "SELECT id, criado_utc, nome, contato, assunto, mensagem, idioma FROM contatos ORDER BY id DESC LIMIT 100"
+            ).fetchall()
+    return {"contatos": [dict(row) for row in rows]}
