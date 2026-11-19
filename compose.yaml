@@ -9,6 +9,10 @@ services:
       - contact_data:/app/data
     environment:
       EKONOMATICA_CONTACT_DB: /app/data/contatos.sqlite3
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4.1-mini}
+      AI_DAILY_CALL_LIMIT: ${AI_DAILY_CALL_LIMIT:-60}
+      AI_SESSION_CALL_LIMIT: ${AI_SESSION_CALL_LIMIT:-12}
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
       TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:-}
       EKONOMATICA_ADMIN_TOKEN: ${EKONOMATICA_ADMIN_TOKEN:-}
