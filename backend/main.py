@@ -180,10 +180,10 @@ import re
 import sqlite3
 import time
 from datetime import datetime, timedelta, timezone
-from threading import Lock
+from threading import Lock, Thread
 from urllib.parse import urlencode
 from urllib.request import Request as URLRequest, urlopen
-from fastapi import Header, HTTPException, Request
+from fastapi import Header, HTTPException, Request, Response
 from pydantic import field_validator
 
 DB_PATH = os.environ.get("EKONOMATICA_CONTACT_DB", "/app/data/contatos.sqlite3")
@@ -273,8 +273,9 @@ def receber_contato(dados: ContatoEntrada, request: Request) -> dict:
 
 
 @app.get("/api/admin/contatos")
-def listar_contatos(x_admin_token: str | None = Header(default=None)) -> dict:
+def listar_contatos(response: Response, x_admin_token: str | None = Header(default=None)) -> dict:
     import secrets
+    response.headers["Cache-Control"] = "no-store"
     expected = os.environ.get("EKONOMATICA_ADMIN_TOKEN", "")
     if not expected or not x_admin_token or not secrets.compare_digest(expected, x_admin_token):
         raise HTTPException(status_code=404, detail="Não encontrado")
@@ -285,6 +286,24 @@ def listar_contatos(x_admin_token: str | None = Header(default=None)) -> dict:
                 "SELECT id, criado_utc, nome, contato, assunto, mensagem, idioma FROM contatos ORDER BY id DESC LIMIT 100"
             ).fetchall()
     return {"contatos": [dict(row) for row in rows]}
+
+def _retencao_periodica() -> None:
+    """Remove mensagens antigas a cada seis horas enquanto a API estiver no ar."""
+    while True:
+        try:
+            cutoff = (datetime.now(timezone.utc) - timedelta(days=90)).isoformat()
+            with _contact_lock:
+                with _db() as con:
+                    con.execute("DELETE FROM contatos WHERE criado_utc < ?", (cutoff,))
+        except (OSError, sqlite3.Error):
+            pass
+        time.sleep(6 * 60 * 60)
+
+
+@app.on_event("startup")
+def iniciar_retencao() -> None:
+    Thread(target=_retencao_periodica, name="retencao-contatos", daemon=True).start()
+
 
 # Publica somente arquivos estáticos selecionados durante o build.
 # Não expõe .env, código Python, documentação interna ou histórico do Git.
