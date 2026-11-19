@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Literal
 
 from fastapi import FastAPI
+from backend.ai_agent import router as ai_router
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
@@ -19,6 +20,8 @@ app = FastAPI(
     redoc_url=None,
     openapi_url=None,
 )
+
+app.include_router(ai_router)
 
 Area = Literal[
     "Atendimento e WhatsApp",
