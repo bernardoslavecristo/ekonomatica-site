@@ -1,0 +1,29 @@
+/* Ekonomática — Cinema/Holographic UI v2. Leve no Android, sem bibliotecas externas. */
+:root{--cinema-glow:#59eddb;--cinema-deep:#050b19}
+body{background:radial-gradient(ellipse 65vw 55vw at 80% -10%,#15687a33,transparent 75%),radial-gradient(ellipse 55vw 50vw at -20% 38%,#1855a02e,transparent 75%),#060e1d!important}
+body::before{content:"";pointer-events:none;position:fixed;inset:0;z-index:0;background-image:linear-gradient(#8deaff07 1px,transparent 1px),linear-gradient(90deg,#8deaff07 1px,transparent 1px);background-size:54px 54px;mask-image:linear-gradient(to bottom,#0008,transparent 85%)}
+body>*:not(#eko-chat-toggle):not(#eko-chat-box):not(#eko-cinema-canvas){position:relative}
+#eko-cinema-canvas{position:absolute;top:65px;right:0;width:100%;height:820px;max-height:96vh;z-index:0;pointer-events:none;opacity:.84;mask-image:linear-gradient(to bottom,#000 30%,transparent 100%)}
+.hero{position:relative;isolation:isolate;min-height:600px;align-items:center}
+.hero h1{font-weight:800;letter-spacing:-.055em;line-height:1.07;text-shadow:0 12px 42px #0008}
+.hero .eyebrow,.kicker{letter-spacing:.12em;text-transform:uppercase}
+.visual{position:relative;transform:perspective(1200px) rotateY(-7deg) rotateX(3deg);transform-style:preserve-3d;background:linear-gradient(145deg,#123a5080,#0a1524d9)!important;border:1px solid #5feada65!important;box-shadow:0 35px 95px #000b,inset 0 1px #acffff25,0 0 65px #39d7d522!important;backdrop-filter:blur(16px);transition:transform .6s ease,box-shadow .6s ease}
+.visual:hover{transform:perspective(1200px) rotateY(-1deg) rotateX(1deg) translateY(-6px);box-shadow:0 46px 100px #000c,0 0 80px #43e5e638!important}
+.visual::before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:linear-gradient(130deg,#c4ffff18,transparent 32%,transparent 65%,#3af5f018)}
+.visual::after{content:"EKONOMÁTICA  •  INTELLIGENT SYSTEMS";pointer-events:none;display:block;text-align:center;letter-spacing:.2em;font-size:10px;color:#7ae9df98;margin-top:20px}
+.visual .node,.visual .orb{transform:translateZ(16px)}
+.section{position:relative}
+.sectionhead h2,.section h2{letter-spacing:-.035em}
+.work,.card,.tile,.panel,.strip,.cta,.service-card,.project-card{backdrop-filter:blur(9px);transition:transform .32s ease,border-color .32s ease,box-shadow .32s ease}
+.work:hover,.card:hover,.tile:hover,.service-card:hover,.project-card:hover{transform:translateY(-5px);border-color:#64ebdc88!important;box-shadow:0 22px 50px #0008,0 0 35px #3deadd16}
+.work{position:relative;overflow:hidden}
+.work::after{content:"";position:absolute;pointer-events:none;inset:0;background:linear-gradient(115deg,transparent 40%,#8effed0c 54%,transparent 68%);transform:translateX(-100%);transition:transform 1s ease}
+.work:hover::after{transform:translateX(100%)}
+a.btn,button.btn{box-shadow:0 0 20px #5ce7d129;transition:transform .2s,box-shadow .25s}
+a.btn:hover,button.btn:hover{transform:translateY(-2px);box-shadow:0 0 38px #5ce7d15a}
+.eko-reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}
+.eko-reveal.eko-visible{opacity:1;transform:translateY(0)}
+.eko-cinema-tag{display:inline-flex;align-items:center;gap:8px;border:1px solid #55dbcf77;color:#91eee2;border-radius:100px;padding:7px 13px;font:600 11px/1.2 system-ui,sans-serif;letter-spacing:.11em;text-transform:uppercase;margin-bottom:13px;background:#0d333b77;backdrop-filter:blur(10px)}
+.eko-cinema-tag:before{content:"";width:7px;height:7px;border-radius:50%;background:#80e8db;box-shadow:0 0 12px #80e8db}
+@media(max-width:780px){#eko-cinema-canvas{height:620px;opacity:.5}.hero{min-height:auto}.visual{transform:none!important;box-shadow:0 12px 40px #0008!important}.work:hover,.card:hover,.tile:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.visual,.work,.card,.tile,.panel,.strip,.cta{transition:none!important;transform:none!important}.eko-reveal{opacity:1;transform:none;transition:none}#eko-cinema-canvas{display:none}}
