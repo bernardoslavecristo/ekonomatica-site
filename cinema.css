@@ -27,3 +27,13 @@ a.btn:hover,button.btn:hover{transform:translateY(-2px);box-shadow:0 0 38px #5ce
 .eko-cinema-tag:before{content:"";width:7px;height:7px;border-radius:50%;background:#80e8db;box-shadow:0 0 12px #80e8db}
 @media(max-width:780px){#eko-cinema-canvas{height:620px;opacity:.5}.hero{min-height:auto}.visual{transform:none!important;box-shadow:0 12px 40px #0008!important}.work:hover,.card:hover,.tile:hover{transform:none}}
 @media(prefers-reduced-motion:reduce){.visual,.work,.card,.tile,.panel,.strip,.cta{transition:none!important;transform:none!important}.eko-reveal{opacity:1;transform:none;transition:none}#eko-cinema-canvas{display:none}}
+
+/* Núcleo holográfico CSS 3D — sem GPU/WebGL obrigatório. */
+.eko-holo{position:absolute;right:5%;top:2%;width:130px;height:130px;pointer-events:none;transform-style:preserve-3d;perspective:600px;filter:drop-shadow(0 0 28px #38d7d75a)}
+.eko-holo-core{position:absolute;inset:35px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#e7ffff,#49f6e2 29%,#15567e 68%,#061a36);box-shadow:0 0 28px #63f5e1,0 0 72px #2598ba88}
+.eko-holo-ring{position:absolute;inset:13px;border:1px solid #65fce7b5;border-radius:50%;box-shadow:0 0 22px #2ef3df73,inset 0 0 13px #4dbcd544;animation:eko-orbit 12s linear infinite;transform-style:preserve-3d}
+.eko-holo-ring:nth-child(2){transform:rotateX(67deg) rotateY(25deg);animation-duration:17s;border-color:#8dc9ff}
+.eko-holo-ring:nth-child(3){transform:rotateY(70deg) rotateX(22deg);animation-duration:20s;border-color:#3bb3ef}
+@keyframes eko-orbit{0%{transform:rotateX(70deg) rotateZ(0deg)}100%{transform:rotateX(70deg) rotateZ(360deg)}}
+@media(max-width:780px){.eko-holo{width:75px;height:75px;right:2%;top:0;opacity:.6}.eko-holo-core{inset:22px}.eko-holo-ring{inset:6px}}
+@media(prefers-reduced-motion:reduce){.eko-holo-ring{animation:none}}
