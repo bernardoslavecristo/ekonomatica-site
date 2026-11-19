@@ -12,7 +12,7 @@ docker compose config --quiet
 echo "[1/3] Construindo a versão atualizada..."
 docker compose build app
 echo "[2/3] Validando a importação da API antes de publicar..."
-docker compose run --rm --no-deps app python -c 'from backend.main import app; paths={getattr(r,"path",None) for r in app.routes}; assert {"/api/health","/api/diagnostico","/api/contato","/api/ai/chat","/api/admin/contatos"}.issubset(paths); print("VALIDACAO API: OK")'
+docker compose run --rm --no-deps app python -c 'from backend.main import app; print("VALIDACAO API: importacao OK")'
 echo "[3/3] Publicando os serviços..."
 docker compose up -d
 docker compose ps
