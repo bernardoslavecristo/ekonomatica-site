@@ -12,10 +12,15 @@ docker compose config --quiet
 echo "[1/3] Construindo a versão atualizada..."
 docker compose build app
 echo "[2/3] Validando a importação da API antes de publicar..."
-docker compose run --rm --no-deps app python -c 'from backend.main import app; print("VALIDACAO API: OK")'
+docker compose run --rm --no-deps app python -c 'from backend.main import app; paths={r.path for r in app.routes}; assert {"/api/health","/api/diagnostico","/api/contato","/api/ai/chat","/api/admin/contatos"}.issubset(paths); print("VALIDACAO API: OK")'
 echo "[3/3] Publicando os serviços..."
 docker compose up -d
 docker compose ps
 echo "SITE: https://ekonomatica.com.br"
 echo "CAIXA DE CONTATOS: https://ekonomatica.com.br/caixa.html"
-echo "O Telegram necessita configuracao de bot separada."
+if grep -Eq "^OPENAI_API_KEY=sk-[A-Za-z0-9_-]+" .env; then
+  echo "OpenAI: chave configurada (nao confirma saldo ou sucesso da API)."
+else
+  echo "OpenAI: chave ainda nao configurada. Chat vai orientar o visitante a usar o formulario."
+fi
+echo "Telegram: notificacoes dependem de configuracao do bot separada."
