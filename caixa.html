@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Caixa de contatos | Ekonomática</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="cinema.css">
+<style>
+body{color:#eaf6ff;font:15px/1.6 system-ui,sans-serif}main{width:min(880px,calc(100% - 26px));margin:45px auto 90px}
+h1{font-size:clamp(25px,5vw,40px);margin:8px 0;color:#84eddf}h2{font-size:18px}
+a{color:#8ceee0}button{cursor:pointer;background:#68e3d2;border:0;color:#05252d;padding:12px 17px;border-radius:10px;font-weight:750}
+input{width:100%;padding:13px;border-radius:10px;background:#162c3f;color:#f5ffff;border:1px solid #476779;font:inherit;margin:9px 0 15px}
+.card{border:1px solid #385469;background:#0f2032eb;padding:19px;border-radius:15px;margin:15px 0;overflow-wrap:anywhere}
+small,time{color:#bed2de}.meta{display:flex;gap:14px;flex-wrap:wrap}.message{white-space:pre-wrap;background:#071425;padding:15px;border-radius:10px;border:1px solid #2c4658}
+#status{min-height:24px;color:#8ceee0}#items:empty:before{content:"Nenhuma mensagem exibida";color:#abc3d1}
+</style></head><body><main><p><a href="/">← Voltar ao site da Ekonomática</a></p>
+<h1>Caixa de contatos</h1><p>Painel privativo para ler solicitações recebidas pelo site. O token de acesso não é salvo neste navegador.</p>
+<section class="card" aria-label="Acesso à caixa de contatos"><label for="token">Token administrativo configurado na VPS</label><input id="token" type="password" autocomplete="off" placeholder="Cole seu token" required><button id="load">Consultar mensagens</button><p id="status" role="status" aria-live="polite"></p></section>
+<section id="items" aria-label="Mensagens recebidas"></section>
+</main><script>
+const load=document.getElementById('load'), token=document.getElementById('token'), status=document.getElementById('status'), items=document.getElementById('items');
+load.addEventListener('click',async()=>{
+ const value=token.value.trim();items.replaceChildren();if(!value){status.textContent='Informe o token administrativo.';return}
+ load.disabled=true;status.textContent='Consultando mensagens...';
+ try{const response=await fetch('/api/admin/contatos',{headers:{'X-Admin-Token':value},cache:'no-store'});if(!response.ok)throw new Error('Acesso negado ou serviço indisponível');const data=await response.json();
+ const list=Array.isArray(data.contatos)?data.contatos:[];status.textContent=list.length+' mensagem(ns) encontrada(s).';
+ for(const m of list){const section=document.createElement('article');section.className='card';
+ const title=document.createElement('h2');title.textContent='#'+m.id+' — '+m.nome;section.append(title);
+ const meta=document.createElement('div');meta.className='meta';
+ for(const label of ['criado_utc','contato','assunto','idioma']){const entry=document.createElement('small');entry.textContent=(label==='criado_utc'?'Recebido':label)+': '+(m[label]||'');meta.append(entry)}section.append(meta);
+ const msg=document.createElement('p');msg.className='message';msg.textContent=m.mensagem;section.append(msg);items.append(section)}
+ }catch(e){status.textContent=e.message}finally{load.disabled=false}
+});
+</script></body></html>
