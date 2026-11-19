@@ -173,12 +173,6 @@ def estimativa(dados: EstimativaEntrada) -> dict:
     }
 
 
-# Publica somente arquivos estáticos selecionados durante o build.
-# Não expõe .env, código Python, documentação interna ou histórico do Git.
-STATIC_DIR = Path(__file__).resolve().parent.parent / "public"
-if STATIC_DIR.is_dir():
-    app.mount("/", StaticFiles(directory=str(STATIC_DIR), html=True), name="public")
-
 # Caixa de mensagens comerciais com retenção limitada e notificação Telegram opcional.
 # Não é chat ao vivo; credenciais e dados ficam fora do repositório Git.
 import os
@@ -291,3 +285,10 @@ def listar_contatos(x_admin_token: str | None = Header(default=None)) -> dict:
                 "SELECT id, criado_utc, nome, contato, assunto, mensagem, idioma FROM contatos ORDER BY id DESC LIMIT 100"
             ).fetchall()
     return {"contatos": [dict(row) for row in rows]}
+
+# Publica somente arquivos estáticos selecionados durante o build.
+# Não expõe .env, código Python, documentação interna ou histórico do Git.
+STATIC_DIR = Path(__file__).resolve().parent.parent / "public"
+if STATIC_DIR.is_dir():
+    app.mount("/", StaticFiles(directory=str(STATIC_DIR), html=True), name="public")
+
