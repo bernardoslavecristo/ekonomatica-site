@@ -106,13 +106,32 @@ import('https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js').then(
     assembly.rotation.y=t*.14+phase*.91+state.drag+state.mx*.12;
     assembly.rotation.x=Math.sin(t*.27)*.09+phase*.21+state.tilt+state.my*.07;
     assembly.rotation.z=Math.sin(t*.13)*.04+phase*.17;
+    // Cada capítulo transforma de verdade o objeto: núcleo, cascas e órbitas.
+    // 0 núcleo / 1 automação / 2 agente / 3 conexões globais.
     const scale=mobile?(width<400?.61:.71):clamp(width/1500,.76,1.16);
-    const swell=1+Math.sin(fraction*Math.PI)*.12;
-    assembly.scale.setScalar(lerp(assembly.scale.x,scale*swell,.04));
+    const pulse=1+Math.sin(fraction*Math.PI)*.09;
+    const isFlow=clamp(1-Math.abs(phase-1.42),0,1);
+    const isAgents=clamp(1-Math.abs(phase-2.42),0,1);
+    const isNetworks=clamp(1-Math.abs(phase-3.30),0,1);
+    const sceneScale=scale*pulse*(1-.12*isFlow+.18*isNetworks);
+    assembly.scale.setScalar(lerp(assembly.scale.x,sceneScale,.04));
+    inner.scale.setScalar(lerp(inner.scale.x,1+.25*isAgents-.18*isFlow,.06));
+    core.scale.setScalar(lerp(core.scale.x,1-.21*isAgents+.12*isFlow,.06));
+    shell.scale.setScalar(lerp(shell.scale.x,1+.20*isNetworks+.08*isAgents,.05));
+    shell2.scale.setScalar(lerp(shell2.scale.x,1+.26*isNetworks,.05));
+    shell.material.opacity=lerp(shell.material.opacity,.22+.23*isFlow+.12*isNetworks,.05);
+    shell2.material.opacity=lerp(shell2.material.opacity,.17+.19*isNetworks,.05);
+    lines.material.opacity=lerp(lines.material.opacity,.18+.24*isFlow+.28*isNetworks,.05);
+    pmat.opacity=lerp(pmat.opacity,.83+.15*isAgents,.05);
     inner.rotation.set(-t*.15,t*.3,t*.07);
     shell.rotation.set(t*.13,-t*.19,0);
     shell2.rotation.set(-t*.07,t*.11,0);
-    rings.forEach((ring,i)=>{ring.rotation.z+=.0015*(i%2?1:-1);ring.rotation.y+=.0009*(i+1)});
+    rings.forEach((ring,i)=>{
+      ring.rotation.z+=.0015*(i%2?1:-1);ring.rotation.y+=.0009*(i+1);
+      const spread=1+(.25*isFlow)+(.11*isNetworks*i);
+      ring.scale.setScalar(lerp(ring.scale.x,spread,.045));
+      ring.material.opacity=lerp(ring.material.opacity,[.74,.44,.28][i]*(1-.36*isAgents+.24*isNetworks),.05);
+    });
     satellites.rotation.y=-t*.06;
     lines.rotation.y=-t*.04;
     const cameraTarget=mobile?11.7:11.5;
