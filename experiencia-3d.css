@@ -21,3 +21,24 @@ main{position:relative;z-index:2}.chapter{min-height:100svh;min-height:100dvh;di
 @media(max-width:540px){.site-header{min-height:65px;padding:0 16px}.identity{font-size:20px}.identity-mark{font-size:21px;margin-right:2px}.header-nav{gap:10px;font-size:11px}.header-nav>a:not(.nav-cta){display:none}.nav-cta{padding:9px 11px}.chapter{padding:70px 21px 10vh}.chapter-content{max-width:100%}.chapter-content h1,.chapter-content h2{font-size:clamp(35px,10.2vw,52px)}.chapter-description{font-size:13px;max-width:355px}.kicker{font-size:9px}.hero-actions,.final-actions{gap:14px}.primary-cta{padding:13px 14px;font-size:12px;gap:8px}.text-cta{font-size:12px}.hero-bottom span:last-child{display:none}.hero-bottom{font-size:8px}.object-caption{top:12%;right:5%;opacity:.8}.chapter-pills span{font-size:9px;padding:7px 9px}.final-section{min-height:85svh;padding:90px 18px}.final-inner h2{font-size:clamp(34px,9vw,48px)}.final-inner>p:not(.kicker){font-size:14px}.site-footer{font-size:9px;padding:25px 20px}.site-footer>span:nth-child(2){display:none}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}.scene-fallback{opacity:.75}#ek3d{display:none!important}}
 @media(forced-colors:active){.chapter-content,.final-inner{background:Canvas;color:CanvasText}}
+
+/* Portfólio: uma seção de conversão real entre o espetáculo 3D e o contato. */
+.portfolio-section{position:relative;isolation:isolate;background:linear-gradient(#040a13d6,#071a27f5 30%,#06111eea 100%);padding:105px 26px 95px;border-top:1px solid #65eff427}
+.portfolio-wrap{max-width:1170px;margin:0 auto}
+.portfolio-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin:15px 0 37px}
+.portfolio-heading h2{font:600 clamp(42px,5.5vw,75px)/1.05 'Space Grotesk',sans-serif;letter-spacing:-.065em;margin:0}
+.portfolio-heading h2 em{font-style:normal;color:var(--cyan)}
+.portfolio-heading>p{color:#a8c4d1;font-size:15px;max-width:375px;margin:0}
+.portfolio-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.portfolio-card{background:linear-gradient(155deg,#163548a8,#061420c9);border:1px solid #6cdbde47;border-radius:14px;padding:26px 21px 22px;min-height:260px;display:flex;flex-direction:column;box-shadow:0 16px 48px #0003;transition:transform .25s,border-color .25s,box-shadow .25s}
+.portfolio-card:hover{transform:translateY(-5px);border-color:#85fff2b2;box-shadow:0 20px 60px #1bd1d016}
+.project-mark{display:flex;align-items:center;justify-content:space-between;color:#91faeb;font:700 13px 'Space Grotesk';letter-spacing:.1em}
+.project-mark span{color:#9ab5c5;font-size:9px;letter-spacing:.11em}
+.portfolio-card h3{font:600 24px 'Space Grotesk';letter-spacing:-.04em;margin:29px 0 8px}
+.portfolio-card p{color:#a8bdca;font-size:13px;line-height:1.65;margin:0 0 20px}
+.portfolio-card a{font-size:12px;font-weight:700;color:#99f8ea;margin-top:auto}
+.portfolio-card a:hover,.portfolio-link:hover{color:#fff}
+.portfolio-link{display:inline-flex;align-items:center;gap:19px;margin-top:26px;color:#8ef2e6;font-size:13px;font-weight:700}
+.portfolio-link span{font-size:19px}
+@media(max-width:950px){.portfolio-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.portfolio-section{padding:72px 20px}.portfolio-heading{display:block}.portfolio-heading>p{font-size:13px;margin-top:16px}.portfolio-grid{grid-template-columns:1fr;gap:12px}.portfolio-card{min-height:205px}.portfolio-card h3{margin-top:15px}.portfolio-link{font-size:12px;line-height:1.5}}
