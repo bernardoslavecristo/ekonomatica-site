@@ -12,7 +12,7 @@ docker compose config --quiet
 echo "[1/3] Construindo a versão atualizada..."
 docker compose build app
 echo "[2/3] Validando a importação da API antes de publicar..."
-docker compose run --rm --no-deps app python -c 'from backend.main import app; print("VALIDACAO API: importacao OK")'
+docker compose run --rm --no-deps app python -c 'from pathlib import Path; from backend.main import app; pub=Path("/app/public"); required=["index.html","portfolio.html","experiencia-3d.css","experiencia-3d.js","ai-chat.js","contact-widget.js"]; missing=[x for x in required if not (pub/x).is_file()]; assert not missing, "Faltam arquivos: "+", ".join(missing); assert "id=\"ek3d\"" in (pub/"index.html").read_text(), "Cena 3D ausente na homepage"; print("VALIDACAO API E SITE 3D: OK")'
 echo "[3/3] Publicando os serviços..."
 docker compose up -d
 docker compose ps
