@@ -47,3 +47,5 @@ main{position:relative;z-index:2}.chapter{min-height:100svh;min-height:100dvh;di
 .project-organization{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:20px}
 .project-organization img{width:112px;height:37px;object-fit:contain;object-position:center;display:block;padding:6px 9px;background:#fff;border-radius:7px}
 .project-organization span{font-size:10px;color:#b2d0df}
+
+.chef-lu-brand{width:112px;height:112px;object-fit:contain;align-self:flex-start;border-radius:11px;margin-top:15px;box-shadow:0 6px 25px #0005}.portfolio-card:has(.chef-lu-brand) h3{margin-top:12px}
