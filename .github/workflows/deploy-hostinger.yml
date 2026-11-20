@@ -1,0 +1,58 @@
+name: Ekonomatica | Publicar na Hostinger
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmacao:
+        description: "Digite PUBLICAR para confirmar a atualização da VPS"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ekonomatica-producao
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: ${{ inputs.confirmacao == 'PUBLICAR' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    steps:
+      - name: Verificar credenciais configuradas
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          for key in VPS_HOST VPS_USER VPS_SSH_KEY VPS_KNOWN_HOSTS; do
+            if [ -z "${!key:-}" ]; then
+              echo "::error::Falta configurar o secret $key nas configurações do repositório."
+              exit 1
+            fi
+          done
+          echo "Credenciais de implantação presentes."
+      - name: Publicar via SSH e verificar saúde
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/.ssh"
+          chmod 700 "$HOME/.ssh"
+          printf '%s\n' "$VPS_SSH_KEY" > "$HOME/.ssh/id_deploy"
+          chmod 600 "$HOME/.ssh/id_deploy"
+          printf '%s\n' "$VPS_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/known_hosts"
+          ssh -i "$HOME/.ssh/id_deploy" \
+              -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=15 \
+              "$VPS_USER@$VPS_HOST" \
+              'set -euo pipefail; cd /opt/ekonomatica-site; git pull --ff-only; bash deploy-hostinger.sh'
+          echo "Deploy acionado na VPS. Conferir URL pública após atualização."
