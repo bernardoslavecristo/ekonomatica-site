@@ -42,3 +42,8 @@ main{position:relative;z-index:2}.chapter{min-height:100svh;min-height:100dvh;di
 .portfolio-link span{font-size:19px}
 @media(max-width:950px){.portfolio-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.portfolio-section{padding:72px 20px}.portfolio-heading{display:block}.portfolio-heading>p{font-size:13px;margin-top:16px}.portfolio-grid{grid-template-columns:1fr;gap:12px}.portfolio-card{min-height:205px}.portfolio-card h3{margin-top:15px}.portfolio-link{font-size:12px;line-height:1.5}}
+
+/* Identificação de competição: marca Kaggle, sem sugerir parceria comercial. */
+.project-organization{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:20px}
+.project-organization img{width:112px;height:37px;object-fit:contain;object-position:center;display:block;padding:6px 9px;background:#fff;border-radius:7px}
+.project-organization span{font-size:10px;color:#b2d0df}
