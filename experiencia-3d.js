@@ -2,7 +2,7 @@
 (()=>{'use strict';
 document.getElementById('year').textContent=new Date().getFullYear();
 const canvas=document.getElementById('ek3d');
-if(!canvas||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+if(!canvas||matchMedia('(prefers-reduced-motion: reduce)').matches||navigator.connection?.saveData)return;
 const small=()=>window.innerWidth<900;
 const low=()=>window.innerWidth<540||navigator.hardwareConcurrency<=4;
 const state={scene:0,progress:0,target:0,drag:0,tilt:0,mx:0,my:0,active:true};
@@ -18,16 +18,20 @@ function scrollState(){
 }
 let queued=false;addEventListener('scroll',()=>{if(!queued){queued=true;requestAnimationFrame(()=>{scrollState();queued=false})}},{passive:true});
 let touchStart=null;
-canvas.parentElement.style.pointerEvents='auto';
-canvas.parentElement.addEventListener('pointerdown',e=>{if(e.target!==canvas)return;touchStart={x:e.clientX,y:e.clientY};},{passive:true});
-canvas.parentElement.addEventListener('pointermove',e=>{
+document.addEventListener('pointerdown',e=>{if(e.target.closest('a,button,input,textarea,select,#eko-chat-box'))return;touchStart={x:e.clientX,y:e.clientY};},{passive:true});
+document.addEventListener('pointermove',e=>{
   if(!touchStart&&e.pointerType==='touch')return;
   state.mx=(e.clientX/Math.max(1,width)-.5)*2;
   state.my=(e.clientY/Math.max(1,height)-.5)*2;
-  if(touchStart){state.drag+=(e.clientX-touchStart.x)*.006;state.tilt=Math.max(-.9,Math.min(.9,state.tilt+(e.clientY-touchStart.y)*.002));touchStart={x:e.clientX,y:e.clientY}}
+  if(touchStart){
+    const dx=e.clientX-touchStart.x,dy=e.clientY-touchStart.y;
+    if(e.pointerType!=='touch'||Math.abs(dx)>Math.abs(dy)*1.2)state.drag+=dx*.006;
+    state.tilt=Math.max(-.6,Math.min(.6,state.tilt+(e.pointerType==='touch'?0:dy*.002)));
+    touchStart={x:e.clientX,y:e.clientY};
+  }
 },{passive:true});
-canvas.parentElement.addEventListener('pointerup',()=>{touchStart=null},{passive:true});
-canvas.parentElement.addEventListener('pointercancel',()=>{touchStart=null},{passive:true});
+document.addEventListener('pointerup',()=>{touchStart=null},{passive:true});
+document.addEventListener('pointercancel',()=>{touchStart=null},{passive:true});
 document.addEventListener('visibilitychange',()=>{state.active=!document.hidden},{passive:true});
 function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
 function lerp(a,b,t){return a+(b-a)*t}
