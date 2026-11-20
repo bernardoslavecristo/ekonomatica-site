@@ -11,13 +11,18 @@
 - Simulador de Aluguéis — projeto imobiliário com parâmetros e cenários de simulação
 - Nilo — projeto em revisão de documentação pública
 
-## Como visualizar a base atual
-Abrir `index.html` em navegador. A base atual é estática e não representa as funcionalidades interativas completas que serão desenvolvidas.
+## Experiência cinematográfica 3D (prévia isolada)
 
-Para a produção estão previstos backend com APIs e lógica de aplicação, demonstrações interativas reais, infraestrutura de execução própria ou equivalente e validação no Android.
+A prévia está em `experiencia-3d.html`, com estilos em `experiencia-3d.css` e cena Three.js em `experiencia-3d.js`. Possui núcleo 3D original com órbitas, malhas, partículas, iluminação, rotação e movimentos coordenados com rolagem. Em dispositivos lentos e modo de movimento reduzido, há alternativa estática. A página `index.html` continua sendo a entrada pública anterior até a aprovação de uma nova versão.
+
+A cena ainda precisa passar por verificação visual real no Android e no desktop antes de substituir a homepage. Os scripts do consultor generativo permanecem incluídos na prévia, utilizando apenas o backend próprio da Ekonomática.
 
 ## Publicação e hospedagem
-O workflow existente `.github/workflows/pages.yml` pode servir para visualizar a **base estática**, se habilitado; **GitHub Pages não é a solução final de hospedagem da plataforma dinâmica**. A infraestrutura de produção (VPS Hostinger em avaliação ou equivalente) ainda não foi contratada nem configurada. Não alterar DNS até preparar a hospedagem e conferir os serviços existentes.
+**Produção: VPS Hostinger Ubuntu 24.04 em operação no domínio `https://ekonomatica.com.br`**. O GitHub é repositório do código, não hospedagem do site. Não habilitar GitHub Pages.
+
+Validação automática do código: `.github/workflows/validate.yml` (GitHub Actions a cada push). Publicação: `.github/workflows/deploy-hostinger.yml` com disparo manual explícito e autenticação SSH. A publicação NÃO está funcionando automaticamente até que o repositório disponha dos secrets `VPS_HOST`, `VPS_USER`, `VPS_SSH_KEY` e `VPS_KNOWN_HOSTS`, com chave de implantação autorizada na VPS. Nunca guardar chave privada, chave OpenAI, tokens ou senhas no GitHub. Ao configurar, preferir usuário dedicado e autenticação por chave, conferir fingerprint do servidor por canal confiável, e restringir permissões da chave.
+
+**O código enviado ao GitHub não entra automaticamente no site público.** Até a configuração segura do deploy remoto, a VPS mantém a última versão publicada. O script `deploy-hostinger.sh` está disponível para publicação controlada na própria VPS.
 
 ## Checklist editorial antes de divulgar
 - [ ] Confirmar titularidade e informações comerciais (nome, e-mail, enquadramento empresarial e condições)
