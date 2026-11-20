@@ -13,9 +13,9 @@
 
 ## Experiência cinematográfica 3D (prévia isolada)
 
-A prévia está em `experiencia-3d.html`, com estilos em `experiencia-3d.css` e cena Three.js em `experiencia-3d.js`. Possui núcleo 3D original com órbitas, malhas, partículas, iluminação, rotação e movimentos coordenados com rolagem. Em dispositivos lentos e modo de movimento reduzido, há alternativa estática. A página `index.html` continua sendo a entrada pública anterior até a aprovação de uma nova versão.
+A nova homepage 3D está em `index.html`, com estilos em `experiencia-3d.css` e cena Three.js em `experiencia-3d.js`. Possui núcleo 3D original com órbitas, malhas, partículas, iluminação, rotação e transformações coordenadas com rolagem. Em dispositivos lentos e modo de movimento reduzido, há alternativa estática. A versão anterior, incluindo o portfólio integral, foi preservada em `portfolio.html`. A página `experiencia-3d.html` permanece como prévia de desenvolvimento.
 
-A cena ainda precisa passar por verificação visual real no Android e no desktop antes de substituir a homepage. Os scripts do consultor generativo permanecem incluídos na prévia, utilizando apenas o backend próprio da Ekonomática.
+A versão do GitHub ainda precisa ser publicada na VPS e passar por verificação visual real no Android e no desktop. Os scripts do consultor generativo permanecem incluídos na prévia, utilizando apenas o backend próprio da Ekonomática.
 
 ## Publicação e hospedagem
 **Produção: VPS Hostinger Ubuntu 24.04 em operação no domínio `https://ekonomatica.com.br`**. O GitHub é repositório do código, não hospedagem do site. Não habilitar GitHub Pages.
@@ -35,3 +35,15 @@ Contato informado: ekonomatica.consultoria@gmail.com. Não publicar documentos i
 
 ## Continuidade
 As decisões de produto, escopo, DNS e próxima etapa estão em [`DECISOES_E_CONTINUIDADE.md`](DECISOES_E_CONTINUIDADE.md). Consultar antes de propor a próxima ação ou mudar prioridades.
+
+## Publicação automática sem console recorrente
+
+Foi preparada a opção **pull-based** na própria VPS, sem expor SSH ou credenciais da API a serviços externos. Requer apenas a instalação inicial por administrador na VPS Hostinger, a partir do diretório já clonado.
+
+```bash
+cd /opt/ekonomatica-site && git pull --ff-only && bash deploy-hostinger.sh && bash install-auto-deploy.sh
+```
+
+Após esse comando, o timer systemd verifica a branch `main` a cada dez minutos e instala as novas versões via Docker Compose. A rotina ignora alterações locais, evita execuções simultâneas e tenta restaurar a versão anterior quando o deploy falha. Logs: `journalctl -u ekonomatica-auto-deploy.service -n 50 --no-pager`. Para pausar: `systemctl disable --now ekonomatica-auto-deploy.timer`.
+
+**Importante:** ativar a publicação automática dá aos commits aprovados na branch principal efeito direto sobre a produção. Controlar o acesso ao GitHub e testar alterações antes de atualizar `main`. Nunca versionar `.env`, chaves ou credenciais. A publicação automática é opcional; não está instalada apenas porque o arquivo entrou no GitHub.
