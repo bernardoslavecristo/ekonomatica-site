@@ -6,7 +6,6 @@ RUN pip install --no-cache-dir -r /app/requirements.txt
 COPY backend/ /app/backend/
 RUN mkdir -p /app/public
 COPY *.html *.svg *.css *.js robots.txt sitemap.xml /app/public/
-COPY chef-lu-3d.png /app/public/
 RUN mkdir -p /app/data
 RUN useradd --create-home --uid 10001 appuser && chown -R appuser:appuser /app
 USER appuser
