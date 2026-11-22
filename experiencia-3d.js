@@ -60,7 +60,7 @@ import('https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js').then(
     const ring=new THREE.Mesh(new THREE.TorusGeometry(radius,i===0?.016:.011,6,100),new THREE.MeshBasicMaterial({color:[0x7cfff0,0x219bbf,0x6190fa][i],transparent:true,opacity:[.74,.44,.28][i],depthWrite:false}));
     ring.rotation.set([.7,1.12,.28][i],[.3,-.5,1.35][i],[0,.4,.7][i]);rings.push(ring);assembly.add(ring);
   }
-  const spikesCount=deviceLow?80:180;
+  const spikesCount=deviceLow?140:320;
   const points=new Float32Array(spikesCount*3);
   const sphere=new Float32Array(spikesCount*3);
   for(let i=0;i<spikesCount;i++){
@@ -69,7 +69,7 @@ import('https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js').then(
     sphere[3*i]=rr*Math.cos(a);sphere[3*i+1]=yy;sphere[3*i+2]=rr*Math.sin(a);
   }
   const pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(points,3));
-  const pmat=new THREE.PointsMaterial({color:0x8dfcf1,size:deviceLow?.035:.042,transparent:true,opacity:.88,depthWrite:false,blending:THREE.AdditiveBlending});
+  const pmat=new THREE.PointsMaterial({color:0x8dfcf1,size:deviceLow?.05:.055,transparent:true,opacity:.98,depthWrite:false,blending:THREE.AdditiveBlending});
   const satellites=new THREE.Points(pg,pmat);assembly.add(satellites);
   const curveVertices=[];
   for(let i=0;i<spikesCount;i++){
@@ -78,9 +78,9 @@ import('https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js').then(
   }
   const linesGeometry=new THREE.BufferGeometry();linesGeometry.setAttribute('position',new THREE.Float32BufferAttribute(curveVertices,3));
   const lines=new THREE.LineSegments(linesGeometry,new THREE.LineBasicMaterial({color:0x52c8da,transparent:true,opacity:.18,depthWrite:false}));assembly.add(lines);
-  const starCount=deviceLow?100:350,starPositions=new Float32Array(starCount*3);for(let i=0;i<starCount;i++){starPositions[i*3]=(Math.random()-.5)*24;starPositions[i*3+1]=(Math.random()-.5)*15;starPositions[i*3+2]=-4-Math.random()*15}
+  const starCount=deviceLow?170:480,starPositions=new Float32Array(starCount*3);for(let i=0;i<starCount;i++){starPositions[i*3]=(Math.random()-.5)*24;starPositions[i*3+1]=(Math.random()-.5)*15;starPositions[i*3+2]=-4-Math.random()*15}
   const starGeo=new THREE.BufferGeometry();starGeo.setAttribute('position',new THREE.BufferAttribute(starPositions,3));
-  const stars=new THREE.Points(starGeo,new THREE.PointsMaterial({color:0x6bbccf,size:deviceLow?.018:.027,transparent:true,opacity:.45,depthWrite:false}));scene.add(stars);
+  const stars=new THREE.Points(starGeo,new THREE.PointsMaterial({color:0x6bbccf,size:deviceLow?.026:.032,transparent:true,opacity:.65,depthWrite:false}));scene.add(stars);
   const keyLight=new THREE.PointLight(0x93fff4,64,30,2);keyLight.position.set(-4,4,5);scene.add(keyLight);
   const blueLight=new THREE.PointLight(0x336aff,38,25,2);blueLight.position.set(5,-3,2);scene.add(blueLight);
   const ambient=new THREE.AmbientLight(0x83bdda,1.3);scene.add(ambient);
