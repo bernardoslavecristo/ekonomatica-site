@@ -179,6 +179,7 @@ def estimativa(dados: EstimativaEntrada) -> dict:
 # Caixa de mensagens comerciais com retenção limitada e notificação Telegram opcional.
 # Não é chat ao vivo; credenciais e dados ficam fora do repositório Git.
 import os
+import logging
 import re
 import sqlite3
 import time
@@ -188,6 +189,8 @@ from urllib.parse import urlencode
 from urllib.request import Request as URLRequest, urlopen
 from fastapi import Header, HTTPException, Request, Response
 from pydantic import field_validator
+
+_telegram_logger = logging.getLogger("ekonomatica.telegram")
 
 DB_PATH = os.environ.get("EKONOMATICA_CONTACT_DB", "/app/data/contatos.sqlite3")
 _contact_lock = Lock()
@@ -269,9 +272,10 @@ def receber_contato(dados: ContatoEntrada, request: Request) -> dict:
             )
             with urlopen(req, timeout=4):
                 pass
-        except Exception:
-            # A entrega da mensagem no DB independe de alerta externo.
-            pass
+        except Exception as exc:
+            # Não registrar a URL da API nem o token em logs.
+            _telegram_logger.warning("Notificacao Telegram falhou: tipo=%s", type(exc).__name__)
+            # O contato permanece salvo mesmo que o alerta externo falhe.
     return {"recebido": True, "referencia": contact_id}
 
 
