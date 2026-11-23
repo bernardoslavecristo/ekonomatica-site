@@ -35,8 +35,11 @@ const note=el('div',{'class':'eko-ai-note'},t.note);sendRow.after(note);
 const leadForm=root.querySelector('#eko-contact-form');
 const toggle=el('button',{'class':'eko-ai-lead-toggle',type:'button','aria-expanded':'false'},t.form);
 note.after(toggle);
+// O visitante pode abrir o formulário diretamente após receber a orientação da IA.
+root.addEventListener('click',e=>{if(e.target.closest('.eko-ai-open-contact')){leadForm.hidden=false;toggle.setAttribute('aria-expanded','true');leadForm.querySelector('input')?.focus()}});
 if(leadForm){leadForm.hidden=true;toggle.addEventListener('click',()=>{leadForm.hidden=!leadForm.hidden;toggle.setAttribute('aria-expanded',String(!leadForm.hidden));if(!leadForm.hidden)leadForm.querySelector('input')?.focus()})}
 function bubble(role,content){const b=el('div',{'class':'eko-ai-item '+(role==='user'?'eko-ai-user':'eko-ai-assistant')},content);historyView.append(b);historyView.scrollTop=historyView.scrollHeight;return b}
+function offerContact(){if(!leadForm)return;const btn=el('button',{type:'button','class':'eko-ai-lead-toggle eko-ai-open-contact'},t.form);historyView.append(btn);historyView.scrollTop=historyView.scrollHeight;}
 bubble('assistant',t.welcome);
 let sessionId;
 try{const array=new Uint8Array(24);crypto.getRandomValues(array);sessionId=Array.from(array,x=>x.toString(16).padStart(2,'0')).join('')}catch{sessionId='session-'+Date.now().toString(36)+'-fallback'}
@@ -52,6 +55,7 @@ let response;try{response=await fetch('/api/ai/chat',{method:'POST',headers:{'Co
 if(!response.ok){let msg=t.error;if(response.status===503)msg=t.unavailable;if(response.status===429)msg=t.limit;throw new Error(msg)}
 const body=await response.json();if(typeof body.reply!=='string'||!body.reply.trim())throw new Error(t.error);
 placeholder.textContent=body.reply;transcript.push({role:'user',content:message},{role:'assistant',content:body.reply});count++;
+if(/(contato|formulário|formulario|proposta|orçamento|orcamento|contacto|formulario|presupuesto)/i.test(message+' '+body.reply))offerContact();
 }catch(err){placeholder.textContent=err.message||t.error}
 finally{pending=false;send.disabled=false;historyView.scrollTop=historyView.scrollHeight;input.focus()}
 });
