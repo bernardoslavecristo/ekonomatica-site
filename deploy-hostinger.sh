@@ -16,6 +16,19 @@ docker compose run --rm --no-deps app python -c 'from pathlib import Path; from 
 echo "[3/3] Publicando os serviços..."
 docker compose up -d
 docker compose ps
+echo "[4/4] Verificando acesso publico a paginas essenciais..."
+ok_pages=0
+for page in / /portfolio.html /galeria-3d.html /apresentacoes.html /kaggriculture-360.html; do
+  http_code="$(curl -sS -L --max-time 12 -o /dev/null -w '%{http_code}' "https://ekonomatica.com.br${page}" || true)"
+  if [[ "$http_code" == "200" ]]; then
+    echo "OK HTTP 200: ${page}"
+    ok_pages=$((ok_pages + 1))
+  else
+    echo "ATENCAO HTTP ${http_code:-indisponivel}: ${page}"
+  fi
+done
+echo "PAGINAS PUBLICADAS: ${ok_pages}/5 verificadas com HTTP 200."
+echo "Esta verificacao nao confirma reproducao do video nem entrega de mensagens Telegram."
 echo "SITE: https://ekonomatica.com.br"
 echo "CAIXA DE CONTATOS: https://ekonomatica.com.br/caixa.html"
 if grep -Eq "^OPENAI_API_KEY=sk-[A-Za-z0-9_-]+" .env; then
