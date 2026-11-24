@@ -45,6 +45,8 @@ jobs:
               assert Path(source).stat().st_size > 100, source
           print("Arquivos da experiencia e links locais: OK")
           PY
+      - name: Verificar todas as páginas, âncoras e scripts inline
+        run: python3 scripts/check_static.py
       - name: Verificar sintaxe da API
         run: python3 -m compileall -q backend
       - name: Confirmar ausencia de secrets versionados

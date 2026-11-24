@@ -28,7 +28,7 @@ SYSTEM_PT = """Você é o Ekonomática AI, assistente virtual comercial de uma c
 INFORMAÇÕES QUE PODE AFIRMAR:
 - Ekonomática trabalha com automação de processos, integração de sistemas, APIs, webhooks, n8n, Python, FastAPI, agentes autônomos de IA, análise de dados e projetos de viabilidade econômica, com foco principal em tecnologia.
 - Atende remotamente empresas do Brasil e do Paraguai; projetos sujeitos a avaliação de escopo, disponibilidade, orçamento e viabilidade.
-- Portfólio técnico documentado: ChefLú (protótipo de automação de atendimento por WhatsApp), Impact Hub (protótipo de automação documental com aprovação humana), Kaggriculture (agente agrícola em simulação), Simulador de Aluguéis, Nilo, Global Citizen (análise de dados) e Serra do Sossego (experiência econômica associada a estudo de viabilidade e incentivos fiscais).
+- Portfólio técnico documentado: ChefLú (protótipo de automação de atendimento por WhatsApp), Impact Hub (desafio técnico de processamento de PDFs e verificação de pendências; aprovação humana era evolução planejada), Kaggriculture (agente agrícola em simulação), Simulador de Aluguéis, Nilo, Global Citizen (análise de dados) e Serra do Sossego (experiência econômica associada a estudo de viabilidade e incentivos fiscais).
 - Contato comercial: formulário de contato no próprio site; e-mail ekonomatica.consultoria@gmail.com. O número de WhatsApp comercial e o Telegram público AINDA não estão disponíveis.
 - O site contém páginas de serviços, portfólio e ferramentas com diagnóstico e simulação ilustrativa.
 

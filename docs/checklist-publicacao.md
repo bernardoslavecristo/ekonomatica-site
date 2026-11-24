@@ -1,21 +1,24 @@
-# Ekonomática — checklist de publicação (13/11/2026)
+# Verificação da publicação — 23/11/2026
 
-## Alterações verificadas no repositório
-- [x] Página institucional em português: `index.html`
-- [x] Página internacional português/espanhol: `paraguai.html`
-- [x] Portfólio com ChefLú, Kaggriculture, Impact Hub, Simulador de Aluguéis, Nilo, Global Citizen e Serra do Sossego
-- [x] Links verificados de repositórios públicos de aluguéis e Economia/Finanças
-- [x] Canal de contato: `ekonomatica.consultoria@gmail.com`
-- [x] Menu responsivo, filtro dos projetos, explicação de contratação
-- [x] Workflow GitHub Pages disponível: `.github/workflows/pages.yml`
+Produção deve continuar na VPS Hostinger, em https://ekonomatica.com.br. GitHub Pages permanece desativado.
 
-## Impedimentos ou verificações pendentes
-- [ ] GitHub Pages: habilitar em **Settings → Pages → Build and deployment → Source = GitHub Actions**. A execução do workflow falha na ação `configure-pages` com erro *Get Pages site failed / Not Found*. A tentativa de ativação via workflow não teve permissão suficiente. Não compartilhar o endereço como publicado antes de uma execução bem-sucedida.
-- [ ] Conferir abertura dos vídeos ChefLú e Kaggriculture e da demonstração do Impact Hub em navegador não autenticado. Links inseridos no código não equivalem a validação pública de reprodução.
-- [ ] Acrescentar materiais públicos e repositórios específicos de Nilo, Kaggriculture e ChefLú somente quando identificados.
-- [ ] Confirmar número profissional antes de adicionar botão WhatsApp. Sem publicar número pessoal presumido.
-- [ ] Testar navegação e acessibilidade em dispositivo Android real após publicação.
-- [ ] Configuração de buscadores / Google Business Profile: etapa posterior por decisão do responsável.
+## Preparado no código
+- ChefLú: arquivo narrado original incorporado, 1280×864, 64,6 segundos, vídeo e áudio; controles nativos, tela cheia e carregamento sob demanda.
+- Impact Hub: apresentação YouTube PSgtg2YDMK0 vinculada, sem abrir e-mail para assistir; descrição distingue protótipo e evoluções planejadas.
+- Kaggriculture: demonstração preservada; página 360° com arrasto, rotação automática opcional e teclado.
+- Menus de portfólio, vídeos e diagnóstico acessíveis em celular.
+- Corrigidos atalhos antigos e âncoras quebradas das páginas Kaggriculture.
+- Deploy deve falhar quando páginas, conteúdo da versão ou arquivo MP4 não forem encontrados.
 
-## Resultado esperado
-O visitante usa a URL pública do site para conhecer a consultoria, analisar projetos e entrar em contato. O GitHub permanece opcional, como evidência técnica.
+## Confirmações necessárias na produção
+- Publicar a revisão da main na VPS por deploy-hostinger.sh.
+- Executar python3 scripts/verify_publication.py; só considerar publicado se finalizar com código zero.
+- Conferir reprodução, áudio e legibilidade do ChefLú em tela cheia.
+- Conferir reprodução dos vídeos externos em sessão sem login.
+- Testar rotação e reset da identidade 360°.
+- Testar formulário e notificações conforme configuração privada da VPS; não criar leads fictícios como se fossem reais.
+- Conferir consultor generativo com a configuração existente, sem expor chaves ou alterar limites de uso.
+- Testar em Android real. Emulação e prévia não confirmam execução no aparelho do usuário.
+
+## Limite constatado nesta revisão
+A consulta pública anterior à publicação encontrou /apresentacoes.html com HTTP 404. O navegador da Hostinger exigiu login. Commit no GitHub não comprova implantação na VPS.

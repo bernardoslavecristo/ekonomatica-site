@@ -49,3 +49,11 @@ main{position:relative;z-index:2}.chapter{min-height:100svh;min-height:100dvh;di
 .project-organization span{font-size:10px;color:#b2d0df}
 
 .chef-lu-brand{width:112px;height:112px;object-fit:contain;align-self:flex-start;border-radius:11px;margin-top:15px;box-shadow:0 6px 25px #0005}.portfolio-card:has(.chef-lu-brand) h3{margin-top:12px}
+
+/* Acesso direto ao portfólio e diagnóstico também em celulares. */
+body{font-size:16px}.chapter-description{font-size:clamp(16px,1.4vw,18px)}
+.header-nav,.primary-cta,.text-cta,.portfolio-card p,.portfolio-card a,.portfolio-link{font-size:1rem}
+.portfolio-card a{margin-top:12px;display:inline-flex;align-items:center;min-height:44px;line-height:1.4}
+.portfolio-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+a:focus-visible,button:focus-visible{outline:3px solid var(--cyan);outline-offset:5px}
+@media(max-width:540px){.site-header{position:sticky;min-height:104px;flex-wrap:wrap;gap:6px;padding:10px 16px;background:#050911f5}.header-nav{width:100%;gap:8px;justify-content:space-between;font-size:14px}.header-nav>a:not(.nav-cta){display:inline-flex}.header-nav>a[href="como-trabalhamos.html"]{display:none}.header-nav a{min-height:44px;align-items:center}.nav-cta{font-size:14px;padding:8px}.chapter{min-height:calc(100svh - 108px);padding-top:40px}.chapter-description,.final-inner>p:not(.kicker),.portfolio-heading>p,.portfolio-card p{font-size:16px}.primary-cta,.text-cta,.portfolio-card a,.portfolio-link{font-size:16px}.portfolio-section{scroll-margin-top:115px}.object-caption{display:none}.portfolio-grid{grid-template-columns:1fr}}

@@ -7,6 +7,7 @@ COPY backend/ /app/backend/
 RUN mkdir -p /app/public
 COPY *.html *.svg *.css *.js robots.txt sitemap.xml /app/public/
 COPY ["chef-lu-render-aprovado(2).webp", "/app/public/"]
+COPY media/ /app/public/media/
 RUN mkdir -p /app/data
 RUN useradd --create-home --uid 10001 appuser && chown -R appuser:appuser /app
 USER appuser
