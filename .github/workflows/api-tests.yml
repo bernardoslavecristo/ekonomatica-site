@@ -32,4 +32,4 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r backend/requirements.txt pytest httpx
       - name: Executar testes
-        run: python -m pytest -q tests/test_api.py tests/test_harvest.py
+        run: python -m pytest -q tests/test_api.py tests/test_harvest.py tests/test_crew.py
