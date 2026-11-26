@@ -1,28 +1,23 @@
-# Planejador de colheita — demonstração comercial
+# Kaggriculture — módulo de colheita 0.2
 
-Aplicação: `/colheita.html`. Escopo: uma cultura (alface), três canteiros, sete dias, pedidos e capacidade informados. A aplicação executa um modelo determinístico no navegador; não usa o agente Kaggriculture, previsão agronômica nem dados de fazendas reais.
+Aplicação: `/colheita.html`. Endpoint: `POST /api/kaggriculture/colheita`. Estado: `GET /api/kaggriculture/status`. Sem gravação de entradas, sem LLM e sem ações externas. A interface não calcula um resultado alternativo nem informa conexão ativa quando a API falha.
 
-## Regras
+## Integração e procedência
 
-As duas rotinas usam o mesmo estoque e capacidade, priorizando lotes com vencimento mais próximo. Na rotina fixa, colhe-se até a meta diária. No plano, colhe-se até o pedido diário. Ambas respeitam capacidade e disponibilidade. Não há armazenamento pós-colheita nem transferência de pedidos. Excedente colhido e saldo no fim da janela são perdas hipotéticas. Todos os lotes encerram a janela até o dia 7.
+O módulo `backend/kaggriculture/field_pilot/harvest.py` estende o projeto experimental field_pilot para pés de alface, lotes divisíveis e sete datas. Preservamos `field_pilot/planner.py` e `__init__.py` da validação mínima da Entrega 02. Os conteúdos foram extraídos por AST e literal_eval do notebook, sem executar células. SHA-256 do planejador preservado: `4c0df3c901a90ce7bcb83de78eb80625ba8bfa03450a35117436be83216c4f72`. Fonte: `Kaggriculture_Entrega02_Validacao_Minima_Android.ipynb`; o notebook referencia a Entrega 02 do Drive `1jAuu8Qp0Ue97s8PCww9bGrfuENZ2gukR`.
 
-A conservação deve ser respeitada: produção = entrega + perdas + saldo; pedidos = entrega + faltas. Não há promessa de melhora universal. As regras e limitações aparecem na interface. Alterar dados esconde resultados antigos até o recálculo. O CSV inclui entradas, plano, comparação e hipóteses.
+O endpoint chama a extensão de colheita, não o otimizador original de lotes inteiros. A política treinada da competição Kaggle, seus pesos e previsões agronômicas continuam sem conexão. Esse limite aparece na interface, na resposta e no CSV. Não representa confirmação de execução Android nem resultado comercial.
 
-## Caso inicial reproduzível
+## Entradas e regras
 
-Produção: 830 pés; pedidos: 760; capacidade: 160/dia; meta fixa: 100/dia. Rotina fixa atende 610, com perdas de 220. Plano atende 760, com perdas de 70. Números ilustrativos, não evidência comercial ou de ganho de produtividade biológica. Com capacidade 70, ambos atendem 480 e perdem 350.
+Semana de sete dias com data inicial; três canteiros e sete pedidos editáveis na interface. A API aceita até dez canteiros e trinta pedidos. Quantidades inteiras não negativas até 100.000; data de entrega dentro da semana; identificadores únicos; prontidão anterior ou igual ao prazo limite.
 
-## Evolução para piloto
+Mesma produção e capacidade nas duas rotinas. Rotina fixa tenta colher a meta diária; plano limita a colheita ao pedido do dia. Lotes prontos com prazo limite mais próximo têm prioridade, desempate por identificador. Sem estoque pós-colheita, sem carregar pedidos faltantes. Pedidos na mesma data dividem as entregas na ordem da entrada. Produção que vence após a semana permanece no saldo. Não é otimização global nem previsão biológica.
 
-O piloto proposto começa por uma cultura e quatro semanas após avaliar uma amostra de uma semana. Coletar pedidos datados, disponibilidade/janelas, capacidade e registros de rotina. Definir critérios de entrega, descarte medido e tempo de planejamento, custos, investimento e suporte na proposta. Calibrar e comparar em campo antes de divulgar benefício comercial. Financiamento ou vínculo com Stellar não é declarado nesta demonstração.
+Conservação: produção = entregas + perdas + saldo. Pedidos = entregas + faltas. Cada data recebe explicações sobre seleção, falta de capacidade, disponibilidade e vencimento. Resultado inclui SHA-256 da entrada para rastreabilidade sem armazenar dados.
 
-## Verificação
+## Testes
 
-- `node --test tests/colheita.test.cjs`
-- `python3 scripts/check_static.py`
-- `python3 -m pytest -q tests/test_api.py`
-- `python3 scripts/verify_publication.py` após publicação
+`python -m pytest -q tests/test_api.py tests/test_harvest.py`; `node --test tests/colheita.test.cjs`; `python3 scripts/check_static.py`. Validar interface móvel, API, CSV e falha de conexão antes da publicação. A comparação inicial continua com 610 pés entregues na rotina fixa e 760 no plano, para dados fictícios.
 
-Dependência preexistente: `media/global-citizen-narrado.mp4` está presente na VPS e foi preservado na publicação. O arquivo foi recuperado também para a verificação local, mas não integra o envio de fontes pelo conector. Sua incorporação ao repositório permanece pendente; uma instalação limpa precisa desse arquivo para que a checagem de todas as páginas passe. Esta pendência não altera o cálculo nem os arquivos da aplicação de colheita.
-
-Os scripts e estilos alterados usam uma versão na URL para evitar o reaproveitamento de arquivos anteriores pelo navegador após a publicação.
+Pendência preexistente de fonte: o vídeo Global Citizen está na VPS e foi preservado; não está versionado no repositório. Uma instalação limpa precisa desse arquivo para a checagem de todos os recursos. Não é dependência do módulo de colheita.
