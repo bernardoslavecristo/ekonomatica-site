@@ -21,3 +21,8 @@ Conservação: produção = entregas + perdas + saldo. Pedidos = entregas + falt
 `python -m pytest -q tests/test_api.py tests/test_harvest.py`; `node --test tests/colheita.test.cjs`; `python3 scripts/check_static.py`. Validar interface móvel, API, CSV e falha de conexão antes da publicação. A comparação inicial continua com 610 pés entregues na rotina fixa e 760 no plano, para dados fictícios.
 
 Pendência preexistente de fonte: o vídeo Global Citizen está na VPS e foi preservado; não está versionado no repositório. Uma instalação limpa precisa desse arquivo para a checagem de todos os recursos. Não é dependência do módulo de colheita.
+
+
+## Interface Semana da Colheita — 26/11/2026
+
+O planejador agora é um aplicativo com três etapas: Minha semana, Meus canteiros e Meu plano. Mantém a API e as regras anteriores, oferece cartões diários e tabela completa, comparação e CSV. A tela de resultado só fica disponível após resposta válida; editar as entradas invalida o resultado. Campos inválidos levam à etapa correspondente. Interface própria em azul petróleo e lima, com navegação inferior no celular e acesso ao Colheita no Prazo. Dados fictícios e limitações seguem visíveis.

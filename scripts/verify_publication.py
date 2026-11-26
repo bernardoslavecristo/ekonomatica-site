@@ -9,7 +9,7 @@ from urllib.request import Request, urlopen
 def verify(base):
     checks = {
         '/': ['apresentacoes.html', 'colheita.html', 'Bernardo de Paula Carvalho', 'Menos tarefas manuais.'],
-        '/colheita.html': ['Gerar plano de colheita', 'farm-form', 'Fazenda Horizonte'],
+        '/colheita.html': ['Gerar plano de colheita', 'farm-form', 'Fazenda Horizonte', 'Semana da Colheita', 'daily-cards'],
         '/equipe.html': ['Colheita no Prazo', 'crew-form', 'equipe.js'],
         '/api/kaggriculture/status': ['kaggriculture-harvest-0.2.0', '"connected":true'],
         '/colheita-modelo.js': ['function compare(s)', 'validate(s)'],
