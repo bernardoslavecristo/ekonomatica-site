@@ -47,6 +47,8 @@ jobs:
           PY
       - name: Verificar todas as páginas, âncoras e scripts inline
         run: python3 scripts/check_static.py
+      - name: Verificar cenários e conservação do planejador de colheita
+        run: node --test tests/colheita.test.cjs
       - name: Verificar sintaxe da API
         run: python3 -m compileall -q backend
       - name: Confirmar ausencia de secrets versionados

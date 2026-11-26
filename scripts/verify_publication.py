@@ -8,7 +8,10 @@ from urllib.request import Request, urlopen
 
 def verify(base):
     checks = {
-        '/': ['apresentacoes.html', 'kaggriculture-360.html'],
+        '/': ['apresentacoes.html', 'colheita.html', 'Bernardo de Paula Carvalho', 'Menos tarefas manuais.'],
+        '/colheita.html': ['colheita-modelo.js', 'farm-form', 'Fazenda Horizonte'],
+        '/colheita-modelo.js': ['function compare(s)', 'validate(s)'],
+        '/kaggriculture.html': ['colheita.html', 'deliverables'],
         '/portfolio.html': ['apresentacoes.html#chef'],
         '/apresentacoes.html': ['media/cheflu-operacao-narrada.mp4', 'PSgtg2YDMK0'],
         '/kaggriculture-360.html': ['pointermove', 'ArrowRight'],

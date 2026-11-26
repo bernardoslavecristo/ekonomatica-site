@@ -4,7 +4,7 @@ const lang=document.documentElement.lang.toLowerCase().startsWith('es')?'es':'pt
 const t=lang==='es'?{
 open:'Hablar con Ekonomática',title:'Contactar Ekonomática',intro:'Cuéntenos qué necesita. Su mensaje se guardará de forma segura y responderemos por el canal indicado.',name:'Su nombre',reply:'Correo o usuario de Telegram (@usuario)',topic:'Servicio',message:'¿Qué necesita automatizar o mejorar?',send:'Enviar mensaje',sending:'Enviando...',consent:'Acepto que Ekonomática utilice estos datos para responder a mi solicitud.',note:'No es un chat en vivo. No comparta contraseñas ni datos sensibles. Política de privacidad: ekonomatica.com.br/privacidade.html',success:'Mensaje recibido. Responderemos por el canal indicado.',error:'No fue posible enviar. Intente nuevamente.',validation:'Informe un correo válido o un usuario de Telegram (@usuario).',close:'Cerrar',options:['Automatización e integraciones','Agentes de IA','Datos y análisis económico','Otra consulta']
 }:{
-open:'Falar com a Ekonomática',title:'Contato direto',intro:'Conte o que sua empresa precisa. Sua mensagem ficará registrada e responderemos pelo canal informado.',name:'Seu nome',reply:'E-mail ou usuário do Telegram (@usuario)',topic:'Assunto',message:'O que você gostaria de automatizar ou melhorar?',send:'Enviar mensagem',sending:'Enviando...',consent:'Autorizo a Ekonomática a usar estes dados para responder à minha solicitação.',note:'Não é um chat ao vivo. Não compartilhe senhas nem dados sensíveis. Política de privacidade: ekonomatica.com.br/privacidade.html',success:'Mensagem recebida! Responderemos pelo contato informado.',error:'Não foi possível enviar. Tente novamente.',validation:'Informe um e-mail válido ou usuário do Telegram (@usuario).',close:'Fechar',options:['Automação e integrações','Agentes de IA','Dados e análise econômica','Outro assunto']
+open:'Falar com a Ekonomática',title:'Contato direto',intro:'Conte o que sua empresa precisa. Sua mensagem ficará registrada e responderemos pelo canal informado.',name:'Seu nome',reply:'E-mail ou usuário do Telegram (@usuario)',topic:'Assunto',message:'O que você gostaria de automatizar ou melhorar?',send:'Enviar mensagem',sending:'Enviando...',consent:'Autorizo a Ekonomática a usar estes dados para responder à minha solicitação.',note:'Não é um chat ao vivo. Não compartilhe senhas nem dados sensíveis. Política de privacidade: ekonomatica.com.br/privacidade.html',success:'Mensagem recebida! Responderemos pelo contato informado.',error:'Não foi possível enviar agora. Você também pode escrever para ekonomatica.consultoria@gmail.com.',validation:'Informe um e-mail válido ou usuário do Telegram (@usuario).',close:'Fechar',options:['Automação e integrações','Agentes de IA','Dados e análise econômica','Outro assunto']
 };
 const style=document.createElement('style');style.textContent=`
 #eko-chat-toggle{position:fixed;bottom:20px;right:18px;z-index:9997;border:1px solid #4fe2ce;background:linear-gradient(140deg,#127f80,#0e354a);color:#fff;padding:14px 19px;border-radius:99px;font:700 14px system-ui,sans-serif;box-shadow:0 10px 35px #0009;cursor:pointer}
@@ -42,7 +42,7 @@ const recommendations=lang==='es'?[
  'Podemos mapear tarefas repetitivas, integrações e etapas de aprovação.',
  'Um agente precisa de objetivos, ferramentas permitidas e supervisão humana.',
  'Podemos estruturar indicadores, cenários e decisões econômicas.',
- 'Descreva seu desafio. A equipe poderá avaliar uma proposta.'
+ 'Descreva seu desafio. Bernardo poderá avaliar uma proposta.'
 ];
 t.options.forEach((item,i)=>{
  const btn=el('button',{type:'button',className:'eko-choice','aria-pressed':'false'},item);
@@ -61,6 +61,7 @@ form.append(el('div',{className:'eko-note'},t.note));
 const submit=el('button',{className:'eko-submit',type:'submit'},t.send),result=el('div',{className:'eko-result',role:'status','aria-live':'polite'});form.append(submit,result);box.append(form);
 document.body.append(toggle,box);
 function opened(on){box.hidden=!on;toggle.setAttribute('aria-expanded',String(on));if(on)name.focus();else toggle.focus()}
+document.addEventListener('click',e=>{if(e.target.closest('[data-open-contact]')){opened(true);form.hidden=false;document.dispatchEvent(new Event('eko:open-contact'));name.focus()}});
 toggle.addEventListener('click',()=>opened(box.hidden));close.addEventListener('click',()=>opened(false));
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!box.hidden)opened(false)});
 form.addEventListener('submit',async e=>{e.preventDefault();result.textContent='';const contact=reply.value.trim();if(!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact)||/^@[a-zA-Z0-9_]{5,32}$/.test(contact))){result.textContent=t.validation;reply.focus();return}

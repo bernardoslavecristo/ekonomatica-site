@@ -39,3 +39,5 @@ ol { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0;
   .intro, ol { grid-template-columns: 1fr; }
   .intro { gap: 24px; padding: 42px 0 32px; }
 }
+
+.pilot-details{margin:54px 0}.pilot-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}.pilot-grid h3{margin-top:0}button.button{font:inherit;border:0;cursor:pointer;min-height:48px}.pilot-details>p{max-width:850px}@media(max-width:740px){.pilot-grid{grid-template-columns:1fr}}
