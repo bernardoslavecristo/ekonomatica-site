@@ -23,4 +23,6 @@ O piloto proposto começa por uma cultura e quatro semanas após avaliar uma amo
 - `python3 -m pytest -q tests/test_api.py`
 - `python3 scripts/verify_publication.py` após publicação
 
-O vídeo de Global Citizen já servido no domínio foi recuperado para versionamento: a página existente referenciava um arquivo ausente no repositório, o que bloqueava a checagem de recursos.
+Dependência preexistente: `media/global-citizen-narrado.mp4` está presente na VPS e foi preservado na publicação. O arquivo foi recuperado também para a verificação local, mas não integra o envio de fontes pelo conector. Sua incorporação ao repositório permanece pendente; uma instalação limpa precisa desse arquivo para que a checagem de todas as páginas passe. Esta pendência não altera o cálculo nem os arquivos da aplicação de colheita.
+
+Os scripts e estilos alterados usam uma versão na URL para evitar o reaproveitamento de arquivos anteriores pelo navegador após a publicação.
