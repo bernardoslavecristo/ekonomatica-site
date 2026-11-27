@@ -8,12 +8,12 @@ from urllib.request import Request, urlopen
 
 def verify(base):
     checks = {
-        '/': ['apresentacoes.html', 'colheita.html', 'Bernardo de Paula Carvalho', 'Menos tarefas manuais.'],
+        '/': ['apresentacoes.html', 'colheita.html', 'universo-kaggriculture', 'PROJETO CENTRAL', 'Bernardo de Paula Carvalho', 'Menos tarefas manuais.'],
         '/colheita.html': ['Gerar plano de colheita', 'farm-form', 'Fazenda Horizonte', 'Semana da Colheita', 'daily-cards'],
         '/equipe.html': ['Colheita no Prazo', 'crew-form', 'equipe.js'],
         '/api/kaggriculture/status': ['kaggriculture-harvest-0.2.0', '"connected":true'],
         '/colheita-modelo.js': ['function compare(s)', 'validate(s)'],
-        '/kaggriculture.html': ['colheita.html', 'deliverables'],
+        '/kaggriculture.html': ['colheita.html', 'deliverables', 'PROJETO CENTRAL', 'equipe.html', 'Possibilidades de desenvolvimento'],
         '/portfolio.html': ['apresentacoes.html#chef'],
         '/apresentacoes.html': ['media/cheflu-operacao-narrada.mp4', 'PSgtg2YDMK0'],
         '/kaggriculture-360.html': ['pointermove', 'ArrowRight'],
